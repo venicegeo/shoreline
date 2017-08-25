@@ -1,0 +1,21 @@
+1.0.5:
+    - Support Sentinel-2 (and other jp2k formats) by first converting the files to GeoTiff if in JP2 format
+
+1.0.4:
+	- bump beachfront-py version to 0.1.2
+	- enable JPG2000 format in Dockerfile and packaging
+
+1.0.3:
+    - Added smooth parameter (passed to potrace as alphamax)
+    - Fix tests
+
+1.0.2:
+    - Auditable logger
+    - Simplification and close line string options added
+
+1.0.1:
+    - uses updated beachfront-py that fixes filtering of fake lines (nodata borders)
+    - increase default turdsize (min size of lines) to 1000 to reduce # of small features
+
+1.0.0:
+    - initial version

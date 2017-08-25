@@ -1,0 +1,13 @@
+*.pyc
+.*.swp
+*.log
+*~
+*.egg-info
+build/
+dist/
+*.eggs
+.DS_Store
+.idea
+.tox
+.coverage
+.cache

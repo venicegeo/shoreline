@@ -1,0 +1,6 @@
+gippy>=1.0.0
+satsearch
+git+https://github.com/venicegeo/beachfront-py.git@0.1.2
+git+https://github.com/venicegeo/bfalg-ndwi.git@1.0.5
+#bftideprediction
+#git+https://github.com/venicegeo/bf-tideprediction.git@master
