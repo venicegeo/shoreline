@@ -35,7 +35,7 @@ import gippy.algorithms as alg
 import beachfront.mask as bfmask
 import beachfront.process as bfproc
 import beachfront.vectorize as bfvec
-from nose.tools import set_trace
+from shoreline.main import TIDESERVICE
 
 logger = logging.getLogger(__name__)
 
@@ -86,16 +86,17 @@ def search(aoi, clip=False, mintide=0.8, maxtide=1.0, save=None, **kwargs):
 
 def tide_prediction(lat, lon, dt):
     """ Get tide prediction for lat, lon and datetime """
-    url = 'http://localhost:5000'
+    if TIDESERVICE is None:
+        return None
     payload = {'lat': lat, 'lon': lon, 'dtg': dt}
-    resp = requests.post(url, data=payload)
+    resp = requests.post(TIDESERVICE, data=payload)
     if resp.status_code == 200:
         td = resp.json()
         tiderange = td['maximumTide24Hours'] - td['minimumTide24Hours']
         td['normTide'] = (td['currentTide'] - td['minimumTide24Hours'])/tiderange
         return td
     else:
-        raise Exception('Tide prediction service not found at %s' % url)
+        raise Exception('Tide prediction service not found at %s' % TIDESERVICE)
 
 
 def add_tide_data(scene):
@@ -112,5 +113,7 @@ def add_tide_data(scene):
     lon = (min(lons) + max(lons))/2.0
     lat = (min(lats) + max(lats))/2.0
     dtg = dt.strftime('%Y-%m-%d-%H-%M')
-    scene.metadata['tide'] = tide_prediction(lat, lon, dtg)
+    tide = tide_prediction(lat, lon, dtg)
+    if tide is not None:
+        scene.metadata['tide'] = tide
     return scene

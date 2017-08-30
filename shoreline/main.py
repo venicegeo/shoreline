@@ -35,7 +35,7 @@ import satsearch.config as config
 logger = logging.getLogger(__name__)
 
 
-TIDESERVICE = 'http://localhost:5000'
+TIDESERVICE = None
 
 
 class KeyValuePair(argparse.Action):
@@ -120,7 +120,7 @@ def conflate(coastlines):
 def cli():
     args = parse_args(sys.argv[1:])
     logger.setLevel(args.pop('verbose') * 10)
-    TIDESERVICE = args.pop('tideservice', 'http://localhost:5000')
+    TIDESERVICE = args.pop('tideservice', None)
     config.DATADIR = args.pop('datadir', config.DATADIR)
 
     cmd = args.pop('command')
