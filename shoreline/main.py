@@ -95,17 +95,18 @@ def parse_args(args):
 def process(scenes, path='./'):
     """ Process scenes using bfalg-ndwi """
     fouts = []
-    for scene in scenes.scenes[0:1]:
+    for scene in scenes.scenes:
         satname = scene.platform.lower()
         if satname == 'landsat-8':
             bands = ['B1', 'B5']
         elif satname == 'sentinel-2a':
-            bands = ['B03', 'B08']
+            bands = ['03', '08']
         else:
             logger.error('Satellite %s not supported' % satname)
-        b1 = scene.download(bands[0]).values()[0]
-        b2 = scene.download(bands[1]).values()[0]
-        geojson = ndwi_main([b1, b2], outdir=path, bname=scene.scene_id)
+        b1 = str(scene.download(bands[0])[bands[0]])
+        b2 = str(scene.download(bands[1])[bands[1]])
+        #geoimg = gippy.GeoImage.open(b1)
+        geojson = ndwi_main([b1, b2], outdir=path, bname=str(scene.scene_id))
         fouts.append(os.path.join(path, scene.scene_id + '.geojson'))
     return fouts
 
