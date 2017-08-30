@@ -28,6 +28,7 @@ from satsearch.scene import Scenes
 from satsearch.search import Search
 from shoreline.version import __version__
 import bfalg_ndwi
+import visvalingamwyatt as vw
 #from osgeo import gdal
 import gippy
 import gippy.algorithms as alg
@@ -54,13 +55,16 @@ def get_coastline(bbox):
     lats = [c[1] for c in bbox['features'][0]['geometry']['coordinates'][0]]
     bbox = [min(lons), min(lats), max(lons), max(lats)]
     gj = bfmask.get_features_as_geojson(cmask[1], bbox=bbox, union=True)
-    fname = 'tmpfile.geojson'
-    with open(fname, 'w') as f:
-        f.write(json.dumps(gj))
-    bfvec.simplify(fname, 0.025)
-    with open(fname) as f:
-        gj = json.load(f)
-    os.remove(fname)
+    #fname = 'tmpfile.geojson'
+    #with open(fname, 'w') as f:
+    #    f.write(json.dumps(gj))
+    #bfvec.simplify(fname, 0.025)
+    #with open(fname) as f:
+    #    gj = json.load(f)
+    #os.remove(fname)
+
+    #gj = vw.simplify_geometry(gj, ratio=0.08)
+
     return gj
 
 
