@@ -74,11 +74,15 @@ class Test(unittest.TestCase):
         result = search.tide_prediction(45.0, -60.0, '2017-01-01-12-00')
         assert_almost_equals(result['normTide'], 0.8, places=2)
 
-    def _test_query_coastline(self):
+    def test_query_coastline(self):
         """ Test clipping to just coastline in query """
         aoi = search.get_coastline(self.get_aoi_json())
-        #fname = os.path.join(self.path, 'test_query_coastline.geojson')
-        scenes = self.get_query()
+        fname = os.path.join(self.path, 'test_query_coastline.geojson')
+        with open(fname, 'w') as f:
+            f.write(json.dumps(aoi))
+        scenes = search.query_satapi(aoi=aoi,
+                                     date_from=self.date_from, date_to=self.date_to,
+                                     cloud_from=0, cloud_to=20)
         #self.assertTrue(os.path.exists(fname))
 
     def _test_tide_filter(self):
